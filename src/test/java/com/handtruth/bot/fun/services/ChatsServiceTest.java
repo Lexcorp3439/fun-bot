@@ -1,4 +1,4 @@
-package com.handtruth.bot.fun.dao;
+package com.handtruth.bot.fun.services;
 
 import org.junit.AfterClass;
 import org.junit.Test;
@@ -13,11 +13,11 @@ public class ChatsServiceTest {
     public void saveTest() {
         long id = 0;
         ChatsService.getInstance().save(new Chats(id));
-        assertTrue(ChatsService.getInstance().isExist(id));
+        assertTrue(ChatsService.getInstance().isExist(id).getKey());
     }
 
     @Test
-    public void findAll() {
+    public void findAllTest() {
         long id = 0;
         System.out.println(ChatsService.getInstance().all().toString());
     }

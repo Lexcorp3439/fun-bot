@@ -1,15 +1,16 @@
 package com.handtruth.bot.fun.inst;
 
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
+import java.sql.Time;
+import java.util.*;
 
+import com.handtruth.bot.fun.tools.BotTools;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.GetFile;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.objects.File;
 import org.telegram.telegrambots.meta.api.objects.Message;
+import org.telegram.telegrambots.meta.api.objects.PhotoSize;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.logging.BotLogger;
@@ -28,14 +29,19 @@ public class FunBot extends TelegramLongPollingBot {
     public FunBot() {
         super();
         Calendar c = new GregorianCalendar();
-        int day = c.get(Calendar.DAY_OF_WEEK);
         int hour = c.get(Calendar.HOUR_OF_DAY);
+
+        Calendar c1 = new GregorianCalendar(c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DATE), 22, 0, 0);
         if (hour > 8) {
-            c.add(Calendar.DAY_OF_WEEK, 1);
-        } else {
-            c.set(Calendar.HOUR_OF_DAY, 8);
+            c1.add(Calendar.DAY_OF_WEEK, 1);
         }
-        new TimerController(c, "Доброе утро!!!");
+
+        Calendar c2 = new GregorianCalendar(c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DATE), 22, 0, 0);
+        if (hour > 22) {
+            c2.add(Calendar.DAY_OF_WEEK, 1);
+        }
+        TimerController.setTimer(c1, "Доброе утро!!!", false);
+        TimerController.setTimer(c2, "Спокойной ночи, Дорогой друг!", true);
     }
 
     @Override
@@ -44,9 +50,14 @@ public class FunBot extends TelegramLongPollingBot {
             Message message = update.getMessage();
             if (message.hasText()) {
                 Action action = CommandsController.getInstance().execute(message);
+                if (action.act == Action.Act.Message) {
+                    sendMsg(action.messages, message.getChatId());
+                }
             }
             if (message.hasPhoto()) {
-
+                String id = Objects.requireNonNull(message.getPhoto().stream().max(Comparator.comparing(PhotoSize::getFileSize))
+                        .orElse(null)).getFileId();
+                BotTools.downloadImg(id, message.getChatId());
             }
         }
         if (update.hasCallbackQuery()) {
@@ -90,7 +101,7 @@ public class FunBot extends TelegramLongPollingBot {
         }
     }
 
-    public java.io.File downloadImg(String id) {
+    public java.io.File image(String id) {
         try {
             File file = execute(new GetFile().setFileId(id));
             System.out.println(file.getFileUrl(getBotToken()));

@@ -10,7 +10,7 @@ import org.hibernate.Transaction;
 import com.handtruth.bot.fun.entities.Chats;
 import com.handtruth.bot.fun.utils.HibernateSessionFactoryUtil;
 
-public class ChatsDaoImpl implements ChatsDao{
+public class ChatsDaoImpl implements ChatsDao {
     public Chats findById(long id) {
         return HibernateSessionFactoryUtil.getSessionFactory().openSession().get(Chats.class, id);
     }
@@ -19,6 +19,14 @@ public class ChatsDaoImpl implements ChatsDao{
         Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
         Transaction tx1 = session.beginTransaction();
         session.save(chats);
+        tx1.commit();
+        session.close();
+    }
+
+    public void update(Chats chats) {
+        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
+        Transaction tx1 = session.beginTransaction();
+        session.update(chats);
         tx1.commit();
         session.close();
     }
@@ -59,7 +67,7 @@ public class ChatsDaoImpl implements ChatsDao{
     @SuppressWarnings({"unchecked", "JpaQlInspection"})
     public List<Chats> findWhereSecondAccess() {
         List chats = HibernateSessionFactoryUtil.getSessionFactory()
-                .openSession().createQuery("FROM Chats where access_second=true").list();
+                .openSession().createQuery("FROM Chats where access_first=true and access_second=true").list();
         return (List<Chats>) chats;
     }
 

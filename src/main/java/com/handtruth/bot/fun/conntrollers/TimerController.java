@@ -9,9 +9,9 @@ import com.handtruth.bot.fun.timers.CustomTimerTask;
 public class TimerController {
 //    private ChatsService service;
 
-    public TimerController(Calendar calendar, String msg) {
+    public static void setTimer(Calendar calendar, String msg, boolean secondAccess) {
 //        service = ChatsService.getInstance();
         Timer timer1 = new Timer();
-        timer1.schedule(new CustomTimerTask(msg), calendar.getTime(), 86400000);
+        timer1.schedule(new CustomTimerTask(msg, secondAccess), calendar.getTime(), 86400000);
     }
 }

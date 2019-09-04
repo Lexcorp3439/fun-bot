@@ -25,10 +25,10 @@ public class BotTools {
         inlineKeyboardMarkup = new InlineKeyboardMarkup();
     }
 
-    public void downloadImg(String imgId, long chatId) {
-        String resource = "";
-        String filePath = resource.concat("/" + imgId +"FROM" + chatId + ".jpg");
-        File file = FunBot.Instance.downloadImg(imgId);
+    public static void downloadImg(String imgId, long chatId) {
+        String resource = "L:\\IdeaProjects\\fun-bot\\src\\main\\resources\\img";
+        String filePath = resource.concat("\\" + imgId +"_FROM_" + chatId + ".jpg");
+        File file = FunBot.Instance.image(imgId);
 
         File f = new java.io.File(filePath);
         if (file.renameTo(f)) {

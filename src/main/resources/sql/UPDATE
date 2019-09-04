@@ -1,0 +1,3 @@
+-- noinspection SqlResolveForFile
+
+update chats set access_second=true where id=529797809

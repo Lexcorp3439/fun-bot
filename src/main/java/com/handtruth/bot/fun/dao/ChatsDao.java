@@ -9,6 +9,7 @@ public interface ChatsDao {
     void save(Chats chat);
     void delete(Chats chat);
     void deleteAll();
+    void update(Chats chats);
     List<Chats> findAll();
     List<Chats> findWhereFirstAccess();
     List<Chats> findWhereSecondAccess();

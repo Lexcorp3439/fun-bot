@@ -14,12 +14,12 @@ import com.handtruth.bot.fun.utils.Properties;
 
 public class Main {
     public static void main(String[] args) {
-//        Properties.setProxy();
+        Properties.setProxy();
 
         ApiContextInitializer.init();
         TelegramBotsApi telegramBotsApi = new TelegramBotsApi();
         try {
-            telegramBotsApi.registerBot(new FunBot());
+            telegramBotsApi.registerBot(FunBot.Instance);
             System.out.println("Bot start!!!");
 
         } catch (TelegramApiException e) {

@@ -5,6 +5,7 @@ import java.util.List;
 import com.handtruth.bot.fun.dao.ChatsDao;
 import com.handtruth.bot.fun.dao.ChatsDaoImpl;
 import com.handtruth.bot.fun.entities.Chats;
+import javafx.util.Pair;
 
 public class ChatsService {
     private static final ChatsService INSTANCE = new ChatsService();
@@ -19,6 +20,10 @@ public class ChatsService {
 
     public void save(Chats chats) {
         chatsDao.save(chats);
+    }
+
+    public void update(Chats chats) {
+        chatsDao.update(chats);
     }
 
     public void delete(long id) {
@@ -45,9 +50,11 @@ public class ChatsService {
         return chatsDao.findById(id);
     }
 
-    public boolean isExist(long id) {
+    public Pair<Boolean, Boolean>  isExist(long id) {
         Chats chat = find(id);
-        return chat != null;
+        boolean exist = chat != null;
+        boolean activated = chat != null && chat.isFirstAccess();
+        return new Pair<>(exist, activated);
     }
 
     public List<Chats> findFirstAccess() {

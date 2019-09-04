@@ -12,7 +12,7 @@ public class Chats {
     private Long id;
 
     @Column(name = "access_first")
-    private boolean firstAccess = false;
+    private boolean firstAccess = true;
 
     @Column(name = "access_second")
     private boolean secondAccess = false;
