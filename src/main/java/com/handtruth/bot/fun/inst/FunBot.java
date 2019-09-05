@@ -31,7 +31,7 @@ public class FunBot extends TelegramLongPollingBot {
         Calendar c = new GregorianCalendar();
         int hour = c.get(Calendar.HOUR_OF_DAY);
 
-        Calendar c1 = new GregorianCalendar(c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DATE), 22, 0, 0);
+        Calendar c1 = new GregorianCalendar(c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DATE), 8, 0, 0);
         if (hour > 8) {
             c1.add(Calendar.DAY_OF_WEEK, 1);
         }
@@ -40,7 +40,7 @@ public class FunBot extends TelegramLongPollingBot {
         if (hour > 22) {
             c2.add(Calendar.DAY_OF_WEEK, 1);
         }
-        TimerController.setTimer(c1, "Доброе утро!!!", false);
+        TimerController.setTimer(c1, "Доброе утро, Дорогой друг! Надеюсь ты выспался и готов к тяжелому трудовому дню!", false);
         TimerController.setTimer(c2, "Спокойной ночи, Дорогой друг!", true);
     }
 
