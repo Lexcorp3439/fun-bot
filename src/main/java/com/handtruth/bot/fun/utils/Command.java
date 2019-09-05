@@ -6,7 +6,12 @@ public enum Command {
     help("/help"),
     update("/update"),
     set_time("set_time"),
-    disband("/disband");
+    send("/send"),
+    ahelp("/ahelp"),
+    table("/table"),
+    access("/access"),
+    disband("/disband"),
+    contact("/contact");
 
     private String name;
 

@@ -14,19 +14,21 @@ public class KittensRunnable implements Runnable {
     private boolean secondAccess;
 
     public KittensRunnable(String msg, boolean secondAccess) {
+        this.msg = msg;
+        this.secondAccess = secondAccess;
     }
 
     @Override
     public void run() {
         List<Chats> chats;
         Calendar c = new GregorianCalendar();
-        String resources = "";
+        String resources = "L:\\IdeaProjects\\fun-bot\\src\\main\\resources\\kittens\\";
         if (secondAccess) {
             chats = service.findSecondAccess();
         } else {
             chats = service.findFirstAccess();
         }
-        String path = "";
+        String path = resources + c.get(Calendar.DAY_OF_YEAR) % 91 + ".jpg";
         for (Chats chat : chats) {
             FunBot.Instance.sendPhoto(path, msg, chat.getId());
         }

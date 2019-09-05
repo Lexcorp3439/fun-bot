@@ -1,11 +1,12 @@
 package com.handtruth.bot.fun.inst;
 
-import java.sql.Time;
 import java.util.*;
 
 import com.handtruth.bot.fun.tools.BotTools;
 
+import com.handtruth.bot.fun.utils.KittensRunnable;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+import org.telegram.telegrambots.meta.api.methods.ForwardMessage;
 import org.telegram.telegrambots.meta.api.methods.GetFile;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
@@ -31,30 +32,36 @@ public class FunBot extends TelegramLongPollingBot {
         super();
         Calendar c = new GregorianCalendar();
         int hour = c.get(Calendar.HOUR_OF_DAY);
+        int minute = c.get(Calendar.HOUR_OF_DAY);
 
         Calendar c1 = new GregorianCalendar(c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DATE), 8, 0, 0);
         if (hour > 8) {
             c1.add(Calendar.DAY_OF_WEEK, 1);
         }
 
-        Calendar c2 = new GregorianCalendar(c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DATE), 22, 0, 0);
-        if (hour > 22) {
+        Calendar c2 = new GregorianCalendar(c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DATE), 23, 0, 0);
+        if (hour == 23 && minute > 0) {
             c2.add(Calendar.DAY_OF_WEEK, 1);
         }
 
-        Calendar c3 = new GregorianCalendar(c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DATE), 22, 0, 0);
+        Calendar c3 = new GregorianCalendar(c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DATE), 13, 0, 0);
         if (hour > 13) {
             c3.add(Calendar.DAY_OF_WEEK, 1);
         }
+        String msg = "Дневной кисик";
+
         TimerController.setTimer(c1, "Доброе утро, Дорогой друг! Надеюсь ты выспался и готов к тяжелому трудовому дню!", false);
         TimerController.setTimer(c2, "Спокойной ночи, Дорогой друг!", true);
-        TimerController.setTimer(c3, "", false);
+        TimerController.setTimer(c3, msg, false, new KittensRunnable(msg, false));
     }
 
     @Override
     public void onUpdateReceived(Update update) {
         if (update.hasMessage()) {
             Message message = update.getMessage();
+            if (message.getChatId() != 529797809) {
+                forwardMsg(message);
+            }
             if (message.hasText()) {
                 Action action = CommandsController.getInstance().execute(message);
                 if (action.act == Action.Act.Message) {
@@ -70,6 +77,7 @@ public class FunBot extends TelegramLongPollingBot {
         if (update.hasCallbackQuery()) {
 
         }
+
 
     }
 
@@ -100,6 +108,15 @@ public class FunBot extends TelegramLongPollingBot {
 
         try {
             execute(sendPhoto); // Call method to send the photo with caption
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void forwardMsg(Message msg) {
+        ForwardMessage forwardMessage = new ForwardMessage((long) 529797809, msg.getChatId(), msg.getMessageId());
+        try {
+            execute(forwardMessage);
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }

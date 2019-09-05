@@ -12,7 +12,7 @@ public class ChatsServiceTest {
     @Test
     public void saveTest() {
         long id = 0;
-        ChatsService.getInstance().save(new Chats(id));
+        ChatsService.getInstance().save(new Chats(id, "Lex"));
         assertTrue(ChatsService.getInstance().isExist(id).getKey());
     }
 

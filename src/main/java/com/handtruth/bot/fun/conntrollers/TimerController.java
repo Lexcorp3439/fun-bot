@@ -18,6 +18,6 @@ public class TimerController {
     public static void setTimer(Calendar calendar, String msg, boolean secondAccess, Runnable runnable) {
 //        service = ChatsService.getInstance();
         Timer timer1 = new Timer();
-        timer1.schedule(new CustomTimerTask(msg, secondAccess), calendar.getTime(), 86400000);
+        timer1.schedule(new CustomTimerTask(msg, secondAccess, runnable), calendar.getTime(), 86400000);
     }
 }

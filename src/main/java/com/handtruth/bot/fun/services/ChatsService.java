@@ -26,8 +26,8 @@ public class ChatsService {
         chatsDao.update(chats);
     }
 
-    public void delete(long id) {
-        delete(new Chats(id));
+    public void delete(long id, String name) {
+        delete(new Chats(id, name));
     }
 
     public void delete(Chats chats) {

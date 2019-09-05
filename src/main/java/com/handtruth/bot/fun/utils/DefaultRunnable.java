@@ -12,6 +12,8 @@ public class DefaultRunnable implements Runnable {
     private boolean secondAccess;
 
     public DefaultRunnable(String msg, boolean secondAccess) {
+        this.msg = msg;
+        this.secondAccess = secondAccess;
     }
 
     @Override
