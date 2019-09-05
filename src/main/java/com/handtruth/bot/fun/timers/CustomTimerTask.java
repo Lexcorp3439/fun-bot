@@ -7,27 +7,31 @@ import java.util.TimerTask;
 import com.handtruth.bot.fun.entities.Chats;
 import com.handtruth.bot.fun.inst.FunBot;
 import com.handtruth.bot.fun.services.ChatsService;
+import com.handtruth.bot.fun.utils.DefaultRunnable;
 
 public class CustomTimerTask extends TimerTask {
     private String msg;
     private boolean secondAccess;
-    private ChatsService service;
+
+    private Runnable runnable = null;
 
     public CustomTimerTask(String msg, boolean secondAccess) {
-        this.msg = msg;
-        this.secondAccess = secondAccess;
-        service = ChatsService.getInstance();
+        setUpFields(msg, secondAccess, new DefaultRunnable(msg, secondAccess));
     }
 
+
+    public CustomTimerTask(String msg, boolean secondAccess, Runnable runnable) {
+        setUpFields(msg, secondAccess, runnable);
+    }
+
+    private void setUpFields(String msg, boolean secondAccess, Runnable runnable) {
+        this.msg = msg;
+        this.secondAccess = secondAccess;
+        this.runnable = runnable;
+    }
+
+
     public void run() {
-        List<Chats> chats;
-        if (secondAccess) {
-            chats = service.findSecondAccess();
-        } else {
-            chats = service.findFirstAccess();
-        }
-        for (Chats chat : chats) {
-            FunBot.Instance.sendMsg(msg, chat.getId());
-        }
+        runnable.run();
     }
 }

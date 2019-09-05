@@ -4,6 +4,7 @@ import java.sql.Time;
 import java.util.*;
 
 import com.handtruth.bot.fun.tools.BotTools;
+
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.GetFile;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -40,8 +41,14 @@ public class FunBot extends TelegramLongPollingBot {
         if (hour > 22) {
             c2.add(Calendar.DAY_OF_WEEK, 1);
         }
+
+        Calendar c3 = new GregorianCalendar(c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DATE), 22, 0, 0);
+        if (hour > 13) {
+            c3.add(Calendar.DAY_OF_WEEK, 1);
+        }
         TimerController.setTimer(c1, "Доброе утро, Дорогой друг! Надеюсь ты выспался и готов к тяжелому трудовому дню!", false);
         TimerController.setTimer(c2, "Спокойной ночи, Дорогой друг!", true);
+        TimerController.setTimer(c3, "", false);
     }
 
     @Override
@@ -83,21 +90,18 @@ public class FunBot extends TelegramLongPollingBot {
         }
     }
 
-    private void sendPhoto(String[] ids, long chat_id) {
+    public void sendPhoto(String path, String msg, long chat_id) {
         SendPhoto sendPhoto = new SendPhoto();
-        sendPhoto.setChatId(chat_id);
-        System.out.println(Arrays.toString(ids));
-        for (int i = 0; i < ids.length - 1; i++) {
-            sendPhoto.setPhoto(ids[i]);
+        java.io.File file = new java.io.File(path);
 
-            if (i == ids.length - 2) {
-                sendPhoto.setCaption(ids[ids.length - 1]);
-            }
-            try {
-                execute(sendPhoto); // Call method to send the photo with caption
-            } catch (TelegramApiException e) {
-                e.printStackTrace();
-            }
+        sendPhoto.setChatId(chat_id);
+        sendPhoto.setPhoto(file);
+        sendPhoto.setCaption(msg);
+
+        try {
+            execute(sendPhoto); // Call method to send the photo with caption
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
         }
     }
 
