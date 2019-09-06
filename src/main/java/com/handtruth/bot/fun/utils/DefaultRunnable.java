@@ -27,5 +27,7 @@ public class DefaultRunnable implements Runnable {
         for (Chats chat : chats) {
             FunBot.Instance.sendMsg(msg, chat.getId());
         }
+
+//        FunBot.Instance.sendMsg(msg, 529797809);
     }
 }

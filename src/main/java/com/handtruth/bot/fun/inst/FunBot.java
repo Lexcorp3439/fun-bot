@@ -1,10 +1,12 @@
 package com.handtruth.bot.fun.inst;
 
+import java.io.FileNotFoundException;
 import java.util.*;
 
 import com.handtruth.bot.fun.tools.BotTools;
 
 import com.handtruth.bot.fun.utils.KittensRunnable;
+import com.vdurmont.emoji.EmojiParser;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.ForwardMessage;
 import org.telegram.telegrambots.meta.api.methods.GetFile;
@@ -26,11 +28,14 @@ public class FunBot extends TelegramLongPollingBot {
     private static String USERNAME = "j_for_fun_bot";
     private static String TOKEN = "829035322:AAGSF5TX_yHtDx4TKxqvNKFVU-31PwoZWns";
 
+    private String smile_emoji = EmojiParser.parseToUnicode("\uD83D\uDE0B");
+
     public static FunBot Instance = new FunBot();
 
     public FunBot() {
         super();
         Calendar c = new GregorianCalendar();
+        int day = c.get(Calendar.DAY_OF_YEAR);
         int hour = c.get(Calendar.HOUR_OF_DAY);
         int minute = c.get(Calendar.HOUR_OF_DAY);
 
@@ -39,7 +44,7 @@ public class FunBot extends TelegramLongPollingBot {
             c1.add(Calendar.DAY_OF_WEEK, 1);
         }
 
-        Calendar c2 = new GregorianCalendar(c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DATE), 23, 0, 0);
+        Calendar c2 = new GregorianCalendar(c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DATE), 22, 0, 0);
         if (hour == 23 && minute > 0) {
             c2.add(Calendar.DAY_OF_WEEK, 1);
         }
@@ -49,9 +54,30 @@ public class FunBot extends TelegramLongPollingBot {
             c3.add(Calendar.DAY_OF_WEEK, 1);
         }
         String msg = "Дневной кисик";
+        String mo = "Доброе утро, Дорогой друг! Надеюсь ты выспался и готов к тяжелому трудовому дню!";
+        String night = "Спокойной ночи, Дорогой друг!";
 
-        TimerController.setTimer(c1, "Доброе утро, Дорогой друг! Надеюсь ты выспался и готов к тяжелому трудовому дню!", false);
-        TimerController.setTimer(c2, "Спокойной ночи, Дорогой друг!", true);
+        try {
+            Scanner goodmo = new Scanner(new java.io.File("L:\\IdeaProjects\\fun-bot\\src\\main\\resources\\lists\\goodmo.txt"));
+            Scanner goodnight = new Scanner(new java.io.File("L:\\IdeaProjects\\fun-bot\\src\\main\\resources\\lists\\goodnight.txt"));
+            int i = day % 98;
+            int j = day % 67;
+            for (int k = 0; k < 98; k++) {
+                if (i <= k) {
+                    mo = goodmo.nextLine();
+                    mo += smile_emoji;
+                }
+                if (j <= k) {
+                    night = goodnight.nextLine();
+                    night += smile_emoji;
+                }
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        TimerController.setTimer(c1, mo, false);
+        TimerController.setTimer(c2, night, true);
         TimerController.setTimer(c3, msg, false, new KittensRunnable(msg, false));
     }
 
