@@ -37,20 +37,20 @@ public class FunBot extends TelegramLongPollingBot {
         Calendar c = new GregorianCalendar();
         int day = c.get(Calendar.DAY_OF_YEAR);
         int hour = c.get(Calendar.HOUR_OF_DAY);
-        int minute = c.get(Calendar.HOUR_OF_DAY);
+        int minute = c.get(Calendar.MINUTE);
 
         Calendar c1 = new GregorianCalendar(c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DATE), 8, 0, 0);
         if (hour > 8) {
             c1.add(Calendar.DAY_OF_WEEK, 1);
         }
 
-        Calendar c2 = new GregorianCalendar(c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DATE), 22, 0, 0);
-        if (hour == 23 && minute > 0) {
+        Calendar c2 = new GregorianCalendar(c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DATE), 22, 45, 0);
+        if (hour == 22 && minute > 45) {
             c2.add(Calendar.DAY_OF_WEEK, 1);
         }
 
-        Calendar c3 = new GregorianCalendar(c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DATE), 13, 0, 0);
-        if (hour > 13) {
+        Calendar c3 = new GregorianCalendar(c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DATE), 12, 30, 0);
+        if (hour > 12) {
             c3.add(Calendar.DAY_OF_WEEK, 1);
         }
         String msg = "Дневной кисик";

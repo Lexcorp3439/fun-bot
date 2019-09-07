@@ -29,6 +29,7 @@ public class KittensRunnable implements Runnable {
             chats = service.findFirstAccess();
         }
         String path = resources + c.get(Calendar.DAY_OF_YEAR) % 91 + ".jpg";
+        System.out.println(path);
         for (Chats chat : chats) {
             FunBot.Instance.sendPhoto(path, msg, chat.getId());
         }

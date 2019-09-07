@@ -20,7 +20,7 @@ public class AccessCommand implements AdminCommand {
         if (chat != null) {
             chat.setSecondAccess(set);
             if (set) {
-                FunBot.Instance.sendMsg("Добро пожаловать в ЭЛИТУ! Теперь я буду желать тебе спокойной ночи каждый вечер в *23:00*)))", chat.getId());
+                FunBot.Instance.sendMsg("Добро пожаловать в ЭЛИТУ! Теперь я буду желать тебе спокойной ночи каждый вечер в *22:45*)))", chat.getId());
             } else {
                 FunBot.Instance.sendMsg("Извините, но вы лешились статуса Элиты, мне очень жаль(((", chat.getId());
             }
