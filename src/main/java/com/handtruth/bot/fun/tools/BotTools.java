@@ -8,8 +8,14 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMa
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 
 import com.handtruth.bot.fun.inst.FunBot;
+import com.vdurmont.emoji.EmojiParser;
 
 public class BotTools {
+    public static String smile_with_tongue_emoji = EmojiParser.parseToUnicode("\uD83D\uDE0B");
+    public static String thumbs_up_sign = EmojiParser.parseToUnicode("U+1F44D");
+    public static String thumbs_down_sign = EmojiParser.parseToUnicode("U+1F44E");
+
+
 
     public static void setKeys(InlineKeyboardMarkup inlineKeyboardMarkup, List<String> list) {
         List<List<InlineKeyboardButton>> rowList = new ArrayList<>();

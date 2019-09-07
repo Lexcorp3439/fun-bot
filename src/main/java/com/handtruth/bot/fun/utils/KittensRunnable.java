@@ -1,12 +1,16 @@
 package com.handtruth.bot.fun.utils;
 
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
+
 import com.handtruth.bot.fun.entities.Chats;
 import com.handtruth.bot.fun.inst.FunBot;
 import com.handtruth.bot.fun.services.ChatsService;
+import com.handtruth.bot.fun.tools.BotTools;
 
 public class KittensRunnable implements Runnable {
     private ChatsService service = ChatsService.getInstance();
@@ -29,9 +33,11 @@ public class KittensRunnable implements Runnable {
             chats = service.findFirstAccess();
         }
         String path = resources + c.get(Calendar.DAY_OF_YEAR) % 91 + ".jpg";
-        System.out.println(path);
+        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
+        String[] keys = new String[] {BotTools.thumbs_up_sign, BotTools.thumbs_down_sign};
+        BotTools.setKeys(inlineKeyboardMarkup, Arrays.asList(keys));
         for (Chats chat : chats) {
-            FunBot.Instance.sendPhoto(path, msg, chat.getId());
+            FunBot.Instance.sendPhoto(path, msg, chat.getId(), inlineKeyboardMarkup);
         }
     }
 }

@@ -80,6 +80,12 @@ public class CommandsController {
 
     public Action callback(CallbackQuery callbackQuery) {
         BotTools.dropKeys(inlineKeyboardMarkup);
-        return new Action(Action.Act.Message, "Получено!");
+        String back = callbackQuery.getData();
+        if (back.equals(BotTools.thumbs_up_sign)) {
+            System.out.println("Отлично от " + callbackQuery.getFrom().getFirstName());
+        } else {
+            System.out.println("Плохо от " + callbackQuery.getFrom().getFirstName());
+        }
+        return new Action(Action.Act.Message, "Спасибо за отзыв!");
     }
 }
